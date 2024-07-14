@@ -1,8 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ModelLoadingComponent } from '../model-loading/model-loading.component';
-import * as tf from '@tensorflow/tfjs-core';
-import '@tensorflow/tfjs-backend-webgl';
 import '@tensorflow/tfjs-converter';
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
 import {
@@ -34,9 +32,7 @@ export class ModelState {
     const dialogRef = this.dialog.open(ModelLoadingComponent);
 
     const model = handPoseDetection.SupportedModels.MediaPipeHands;
-    const detectorConfig = {
-      runtime: 'tfjs' as const,
-    };
+    const detectorConfig =  { runtime: 'mediapipe',  solutionPath: "https://cdn.jsdelivr.net/npm/@mediapipe/hands/" } as any;
     return from(handPoseDetection.createDetector(model, detectorConfig)).pipe(
       tap((detector) => {
         this._detector = detector;

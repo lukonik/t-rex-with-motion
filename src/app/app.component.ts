@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, inject, viewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import * as tf from '@tensorflow/tfjs-core';
-import '@tensorflow/tfjs-backend-webgl';
-import '@tensorflow/tfjs-converter';
+
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
 import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
