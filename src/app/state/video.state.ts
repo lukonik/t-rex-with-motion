@@ -23,7 +23,7 @@ export class VideoState {
 
 
 
-    return from(navigator.mediaDevices.getUserMedia({video:true})).pipe(
+    return from(navigator.mediaDevices.getUserMedia({video:{width:100,height:100,frameRate:20}})).pipe(
       tap(() => {
         clearTimeout(permissionTimeoutId);
         dialogRef?.close()
