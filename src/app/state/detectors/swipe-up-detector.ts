@@ -49,7 +49,7 @@ export class SwipeUpDetector implements BaseDetector {
       if (prevY === null || prevY === undefined) {
         return false;
       }
-      return prevY - newY > 10;
+      return prevY - newY > 30;
     }
     reset(): void {
       for (const fingerType of this._fingerTipStates.keys()) {
