@@ -804,6 +804,9 @@
 
             // Reset the time clock.
             this.time = getTimeStamp();
+            window.postMessage({
+               event:'gameOver'
+            })
         },
 
         stop: function () {

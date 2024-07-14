@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { HostListener, inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ModelLoadingComponent } from '../model-loading/model-loading.component';
 import '@tensorflow/tfjs-converter';
@@ -15,10 +15,8 @@ import {
   tap,
   timer,
 } from 'rxjs';
-import { SwipeUpDetector } from './detectors/swipe-up-detector';
-import { DetectorTypesEnum } from './detectors/detector-types.enum';
 import fp from 'fingerpose';
-import { SwipeRightDetector } from './detectors/swipe-right-detector';
+import { DetectorTypesEnum } from './detectors/detector-types.enum';
 const worker = new Worker(new URL('../app.worker', import.meta.url));
 @Injectable({
   providedIn: 'root',
@@ -26,10 +24,16 @@ const worker = new Worker(new URL('../app.worker', import.meta.url));
 export class ModelState {
   dialog = inject(MatDialog);
   private _detector!: handPoseDetection.HandDetector;
-  private _gestureDetectors = [new SwipeUpDetector(), new SwipeRightDetector()];
 
   initialize() {
     const dialogRef = this.dialog.open(ModelLoadingComponent);
+
+
+    window.addEventListener("message",({data})=>{
+      if(data.event==='gameOver'){
+        worker.postMessage({event:'gameOver'})
+      }
+    })
 
     const model = handPoseDetection.SupportedModels.MediaPipeHands;
     const detectorConfig =  { runtime: 'mediapipe',  solutionPath: "https://cdn.jsdelivr.net/npm/@mediapipe/hands/" } as any;
@@ -40,6 +44,7 @@ export class ModelState {
       })
     );
   }
+
 
   proceed(video: HTMLCanvasElement) {
     return this.detect(video);
@@ -55,7 +60,7 @@ export class ModelState {
     function detect() {
       requestAnimationFrame(async () => {
         const hands = await self._detector.estimateHands(video);
-        worker.postMessage(hands);
+        worker.postMessage({data:hands,event:'hand'});
         
 
         detect();

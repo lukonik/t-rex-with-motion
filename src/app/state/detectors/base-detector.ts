@@ -3,4 +3,5 @@ import { DetectorTypesEnum } from './detector-types.enum';
 
 export abstract class BaseDetector {
   abstract detect(hands: Hand[]): DetectorTypesEnum;
+  abstract reset():void
 }

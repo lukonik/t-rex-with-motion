@@ -7,7 +7,7 @@ import { FingerTypes } from './state/detectors/finger-types.enum';
 
 
  class SwipeRightDetector implements BaseDetector {
-  prevY: number | null = null;
+ 
 
   private _fingerTipStates = new Map<FingerTypes, number | null>([
     [FingerTypes.IndexFingerTip, null],
@@ -45,6 +45,12 @@ import { FingerTypes } from './state/detectors/finger-types.enum';
     }
 
     return isSwipeRight ? DetectorTypesEnum.SwipeRight : DetectorTypesEnum.None;
+  }
+
+  reset(): void {
+    for (const fingerType of this._fingerTipStates.keys()) {
+      this._fingerTipStates.set(fingerType,null);
+    }
   }
 
   private isSwipeUp(type: FingerTypes, newX: number) {
@@ -106,6 +112,11 @@ import { FingerTypes } from './state/detectors/finger-types.enum';
     }
     return prevY - newY > 10;
   }
+  reset(): void {
+    for (const fingerType of this._fingerTipStates.keys()) {
+      this._fingerTipStates.set(fingerType,null);
+    }
+  }
 }
 
 
@@ -113,11 +124,19 @@ const gestureDetectors = [new SwipeRightDetector(),new SwipeUpDetector()];
 
 
 addEventListener('message', ({ data }) => {
-  for(const gestureDetector of gestureDetectors){
-    const detected = gestureDetector.detect(data);
-    if (detected !== DetectorTypesEnum.None) {
-      postMessage(detected);
-      break;
+  if(data.event ==='gameOver'){
+    for(const gestureDetector of gestureDetectors){
+      gestureDetector.reset()
     }
   }
+  else if(data.event==='hand'){
+    for(const gestureDetector of gestureDetectors){
+      const detected = gestureDetector.detect(data.data);
+      if (detected !== DetectorTypesEnum.None) {
+        postMessage(detected);
+        break;
+      }
+    }
+  }
+
 });
