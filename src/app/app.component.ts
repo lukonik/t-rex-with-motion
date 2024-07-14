@@ -13,7 +13,6 @@ import { VideoState } from './state/video.state';
 import { ModelLoadingComponent } from './model-loading/model-loading.component';
 import { ModelState } from './state/model.state';
 import { DetectorTypesEnum } from './state/detectors/detector-types.enum';
-import { SuggestionsInfoComponent } from './suggestions-info/suggestions-info.component';
 
 @Component({
   selector: 'app-root',
@@ -42,10 +41,7 @@ export class AppComponent implements AfterViewInit {
       video.srcObject = stream;
 
       this.modelState.initialize().subscribe(() => {
-        this.dialog
-          .open(SuggestionsInfoComponent)
-          .afterClosed()
-          .subscribe(() => {
+      
             const event = new KeyboardEvent('keydown', {
               key: ' ',
               code: 'Space',
@@ -65,53 +61,9 @@ export class AppComponent implements AfterViewInit {
                 ((window as any).runner as any).restart();
               }
             });
-          });
+         
       });
 
-      // const dialogRef = this.dialog.open(ModelLoadingComponent);
-      // const model = handPoseDetection.SupportedModels.MediaPipeHands;
-      // const detectorConfig = {
-      //   runtime: 'tfjs' as const,
-      // };
-      // const detector = await handPoseDetection.createDetector(
-      //   model,
-      //   detectorConfig
-      // );
-
-      // const self = this;
-      // dialogRef.close();
-      // let prevY: any = null;
-
-      // const detect = async () => {
-      //   const hands = await detector.estimateHands(video);
-
-      //   if (hands.length > 0) {
-      //     const landmarks = hands[0].keypoints;
-      //     if (landmarks) {
-      //       const wristY = landmarks.find(
-      //         (point) => point.name === 'middle_finger_tip'
-      //       )?.y;
-      //       if (wristY) {
-      //         if (prevY && prevY - wristY > 3) {
-      //           // Adjust threshold as needed
-      //           console.log('Swipe Up detected!');
-      //           const event = new KeyboardEvent('keydown', {
-      //             key: ' ',
-      //             code: 'Space',
-      //             keyCode: 32,
-      //           });
-      //           document.dispatchEvent(event);
-      //         }
-      //       }
-
-      //       prevY = wristY;
-      //     }
-      //   }
-
-      //   requestAnimationFrame(detect);
-      // };
-
-      // detect();
     });
   }
 }
