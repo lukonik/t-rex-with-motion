@@ -17,6 +17,7 @@ import {
 } from 'rxjs';
 import fp from 'fingerpose';
 import { DetectorTypesEnum } from './detectors/detector-types.enum';
+import { SwipeUpDetector } from './detectors/swipe-up-detector';
 const worker = new Worker(new URL('../app.worker', import.meta.url));
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ const worker = new Worker(new URL('../app.worker', import.meta.url));
 export class ModelState {
   dialog = inject(MatDialog);
   private _detector!: handPoseDetection.HandDetector;
+  private _gestureDetectors = [new SwipeUpDetector()];
 
   initialize() {
     const dialogRef = this.dialog.open(ModelLoadingComponent);
@@ -54,15 +56,17 @@ export class ModelState {
     const self = this;
 
     const hands$ = new Subject<DetectorTypesEnum>();
-    worker.addEventListener('message',({data})=>{
-      hands$.next(data);
-    })
+   
     function detect() {
       requestAnimationFrame(async () => {
         const hands = await self._detector.estimateHands(video);
-        worker.postMessage({data:hands,event:'hand'});
         
-
+        for(const gestureDetector of self._gestureDetectors){
+          const detected = gestureDetector.detect(hands);
+          if (detected !== DetectorTypesEnum.None) {
+            hands$.next(detected)
+          }
+        }
         detect();
       });
     }
