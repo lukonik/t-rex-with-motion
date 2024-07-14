@@ -21,7 +21,9 @@ export class VideoState {
       dialogRef = this.dialog.open(AskVideoPermissionComponent);
     }, 300);
 
-    return from(navigator.mediaDevices.getUserMedia({ video: true })).pipe(
+
+
+    return from(navigator.mediaDevices.getUserMedia({video:true})).pipe(
       tap(() => {
         clearTimeout(permissionTimeoutId);
         dialogRef?.close()
