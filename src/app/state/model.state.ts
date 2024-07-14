@@ -21,7 +21,7 @@ import { SwipeUpDetector } from './detectors/swipe-up-detector';
 import { DetectorTypesEnum } from './detectors/detector-types.enum';
 import fp from 'fingerpose';
 import { SwipeRightDetector } from './detectors/swipe-right-detector';
-
+const worker = new Worker(new URL('../app.worker', import.meta.url));
 @Injectable({
   providedIn: 'root',
 })
@@ -53,17 +53,14 @@ export class ModelState {
     const self = this;
 
     const hands$ = new Subject<DetectorTypesEnum>();
-
+    worker.addEventListener('message',({data})=>{
+      hands$.next(data);
+    })
     function detect() {
       requestAnimationFrame(async () => {
         const hands = await self._detector.estimateHands(video);
-        for(const gestureDetector of self._gestureDetectors){
-          const detected = gestureDetector.detect(hands);
-          if (detected !== DetectorTypesEnum.None) {
-            hands$.next(detected);
-            break;
-          }
-        }
+        worker.postMessage(hands);
+        
 
         detect();
       });
