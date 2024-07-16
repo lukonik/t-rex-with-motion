@@ -47,22 +47,17 @@ export class AppComponent implements AfterViewInit {
       return;
     }
 
-    this.dialog.open(InfoComponent).afterClosed().subscribe(()=>{
-      this.startGame.set(true)
-    })
-
+  
     this.videoState.checkPermission().subscribe(async (stream) => {
       const video = document.getElementById('video') as any;
       video.srcObject = stream;
 
       this.modelState.initialize().subscribe(() => {
       
-            const event = new KeyboardEvent('keydown', {
-              key: ' ',
-              code: 'Space',
-              keyCode: 32,
-            });
-            document.dispatchEvent(event);
+        this.dialog.open(InfoComponent).afterClosed().subscribe(()=>{
+          this.startGame.set(true)
+        })
+    
 
             this.modelState.proceed(video).subscribe((gesture) => {
               if (gesture === DetectorTypesEnum.SwipeUp) {

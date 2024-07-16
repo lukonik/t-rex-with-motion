@@ -1,27 +1,10 @@
-# Handpose
+# T-Rex with motion
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
+play the game [here](https://t-rex-with-motion.vercel.app/)
 
-## Development server
+![t-rex](trex-chrome-game.png)
+## Intro
+T-Rex with Motion is a famous T-Rex game with one addition: you jump using hand motion instead of pressing the spacebar. It uses [tensorflow-hand-pose-library](https://blog.tensorflow.org/2021/11/3D-handpose.html) under the hood to track hand movements. I used an existing T-Rex game repo for the gameplay, so huge thanks to the creator ([link](https://github.com/wayou/t-rex-runner))
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Gameplay actions
+To jump, just move any of your index, middle, or ring fingers up and down. You can move all of them if you want. Remember to show your hand to the webcam so it can track it properly.
