@@ -11,6 +11,9 @@ import { VideoState } from './state/video.state';
 import { ModelLoadingComponent } from './model-loading/model-loading.component';
 import { ModelState } from './state/model.state';
 import { DetectorTypesEnum } from './state/detectors/detector-types.enum';
+// import { TRexGameComponent } from './t-rex-game/t-rex-game.component';
+import isMobile from "is-mobile";
+import { MobileNotSupportedComponent } from './mobile-not-supported/mobile-not-supported.component';
 
 @Component({
   selector: 'app-root',
@@ -29,11 +32,20 @@ export class AppComponent implements AfterViewInit {
   videoState = inject(VideoState);
   modelState = inject(ModelState);
 
-  constructor() {}
+  constructor() {
+    
+  }
 
   async ngOnInit() {}
 
   async ngAfterViewInit() {
+    if(isMobile()){
+      this.dialog.open(MobileNotSupportedComponent,{
+        disableClose:true
+      });
+      return;
+    }
+
     this.videoState.checkPermission().subscribe(async (stream) => {
       const video = document.getElementById('video') as any;
       video.srcObject = stream;
