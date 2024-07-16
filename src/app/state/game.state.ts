@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import "./index.js";
 declare var  Runner:any;
 
 @Injectable({
