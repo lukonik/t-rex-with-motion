@@ -22,9 +22,8 @@ export class GameState{
             }
         })
       this.runner = new Runner('.interstitial-wrapper');  
-      setTimeout(()=>{
+        this.runner.startGame()
         this.jump();
-      },100);
     }
 
     restart(){

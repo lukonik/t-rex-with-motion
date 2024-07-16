@@ -14,6 +14,8 @@ export class TRexGameComponent implements AfterViewInit {
     
   }
   ngAfterViewInit(): void {
-    this.gameState.init();
+    setTimeout(()=>{
+      this.gameState.init();
+    },100)
   }
 }
