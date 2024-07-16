@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import "./index.js";
+import { AfterViewInit, Component, inject } from '@angular/core';
+import { GameState } from '../state/game.state';
+
 @Component({
   selector: 'app-t-rex-game',
   standalone: true,
@@ -7,6 +8,12 @@ import "./index.js";
   templateUrl: './t-rex-game.component.html',
   styleUrl: './t-rex-game.component.scss'
 })
-export class TRexGameComponent {
-
+export class TRexGameComponent implements AfterViewInit {
+  private gameState=inject(GameState);
+  constructor(){
+    
+  }
+  ngAfterViewInit(): void {
+    this.gameState.init();
+  }
 }

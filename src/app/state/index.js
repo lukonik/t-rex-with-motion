@@ -828,6 +828,9 @@
 
         restart: function () {
             if (!this.raqId) {
+                window.postMessage({
+                    event:'startGame'
+                 })           
                 this.playCount++;
                 this.runningTime = 0;
                 this.playing = true;
@@ -2749,7 +2752,6 @@
 
 
 function onDocumentLoad() {
-   window.runner = new Runner('.interstitial-wrapper');
 }
 
 document.addEventListener('DOMContentLoaded', onDocumentLoad);
