@@ -1,6 +1,6 @@
 # T-Rex with motion
 
-play the game [here](https://t-rex-with-motion.vercel.app/)
+Play the game on [GitHub Pages](https://lukonik.github.io/t-rex-with-motion/).
 
 ![t-rex](trex-chrome-game.png)
 ## Intro
@@ -8,3 +8,13 @@ T-Rex with Motion is a famous T-Rex game with one addition: you jump using hand 
 
 ## Gameplay actions
 To jump, just move any of your index, middle, or ring fingers up and down. You can move all of them if you want. Remember to show your hand to the webcam so it can track your hand properly.
+
+## Deployment
+
+Pushes to `main` are automatically built and deployed by the [GitHub Pages workflow](.github/workflows/deploy-pages.yml). In the repository settings, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions** once. The site will then be available at <https://lukonik.github.io/t-rex-with-motion/>.
+
+To create the same production build locally, run:
+
+```sh
+npm run build:github-pages
+```
